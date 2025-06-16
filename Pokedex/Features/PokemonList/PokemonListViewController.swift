@@ -57,6 +57,8 @@ extension PokemonListViewController: PokemonListViewModelDelegate {
     }
     
     func didFailWithError(message: String) {
-        print("Erro ao buscar pokemons: \(message)")
+        DispatchQueue.main.async {
+            self.showAlert(message: "Erro ao carregar lista de pokemons: \(message)")
+        }
     }
 }

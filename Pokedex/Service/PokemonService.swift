@@ -19,7 +19,8 @@ final class PokemonService: PokemonServiceProtocol {
     }
     
     func fetchPokemonList(completion: @escaping (Result<[Pokemon], any Error>) -> Void) {
-        let urlString = "https://pokeapi.co/api/v2/pokemon?limit=151"
+        // Limite máximo 1302, pokemons mais conhecidos limite 151
+        let urlString = "https://pokeapi.co/api/v2/pokemon?limit=1025"
         
         networkClient.fetch(from: urlString, decodeTo: PokemonListResponse.self) { result in
             switch result {
