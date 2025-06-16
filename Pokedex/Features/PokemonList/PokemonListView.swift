@@ -13,13 +13,15 @@ class PokemonListView: UIView {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
+        tableView.showsVerticalScrollIndicator = false
+        tableView.register(PokemonTableViewCell.self, forCellReuseIdentifier: PokemonTableViewCell.identifier)
         return tableView
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setVisualElements()
+
     }
     
     required init?(coder: NSCoder) {
