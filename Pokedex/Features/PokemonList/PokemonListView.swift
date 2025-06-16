@@ -21,7 +21,6 @@ class PokemonListView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setVisualElements()
-
     }
     
     required init?(coder: NSCoder) {
@@ -46,5 +45,9 @@ class PokemonListView: UIView {
     func setTableViewDelegateAndDataSource(delegate: UITableViewDelegate, dataSource: UITableViewDataSource) {
         self.tableView.delegate = delegate
         self.tableView.dataSource = dataSource
+    }
+    
+    func reloadTableView() {
+        self.tableView.reloadData()
     }
 }

@@ -41,6 +41,10 @@ class PokemonTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-//        self.pokemonViewCell.prepareForReuse()
+        self.pokemonViewCell.prepareForReuse()
+    }
+    
+    func configCell(pokemon: Pokemon) {
+        self.pokemonViewCell.configViewCell(pokemon: pokemon)
     }
 }

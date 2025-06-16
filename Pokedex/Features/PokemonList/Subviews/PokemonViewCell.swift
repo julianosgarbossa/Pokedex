@@ -27,7 +27,6 @@ class PokemonViewCell: UIView {
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
-        imageView.image = UIImage(named: "koffing")
         return imageView
     }()
     
@@ -36,7 +35,6 @@ class PokemonViewCell: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.textColor = .black
-        label.text = "Koffing"
         return label
     }()
     
@@ -45,7 +43,6 @@ class PokemonViewCell: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .darkGray
-        label.text = "#013"
         return label
     }()
     
@@ -97,5 +94,12 @@ class PokemonViewCell: UIView {
         self.pokemonImageView.image = nil
         self.nameLabel.text = nil
         self.numberLabel.text = nil
+    }
+    
+    func configViewCell(pokemon: Pokemon) {
+        guard let pokemonUrl = pokemon.pokemonUrl else { return }
+        print(pokemonUrl)
+        self.nameLabel.text = pokemon.name
+        self.numberLabel.text = String(format: "#%03d", pokemon.number)
     }
 }
