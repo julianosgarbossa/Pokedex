@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class PokemonViewCell: UIView {
     
@@ -97,8 +98,8 @@ class PokemonViewCell: UIView {
     }
     
     func configViewCell(pokemon: Pokemon) {
-        guard let pokemonUrl = pokemon.pokemonUrl else { return }
-        print(pokemonUrl)
+        let pokemonImageUrl = URL(string: pokemon.pokemonImage)
+        self.pokemonImageView.kf.setImage(with: pokemonImageUrl, placeholder: UIImage(named: "pokemonImageDefault"))
         self.nameLabel.text = pokemon.name
         self.numberLabel.text = String(format: "#%03d", pokemon.number)
     }
