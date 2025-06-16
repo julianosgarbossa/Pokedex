@@ -8,7 +8,7 @@
 import Foundation
 
 protocol PokemonServiceProtocol {
-    func fetchPokemonList(completion: @escaping (Result<[PokemonResponse], Error>) -> Void)
+    func fetchPokemonList(completion: @escaping (Result<[Pokemon], Error>) -> Void)
 }
 
 final class PokemonService: PokemonServiceProtocol {
@@ -18,15 +18,16 @@ final class PokemonService: PokemonServiceProtocol {
         self.networkClient = networkClient
     }
     
-    func fetchPokemonList(completion: @escaping (Result<[PokemonResponse], any Error>) -> Void) {
+    func fetchPokemonList(completion: @escaping (Result<[Pokemon], any Error>) -> Void) {
         let urlString = "https://pokeapi.co/api/v2/pokemon?limit=151"
         
         networkClient.fetch(from: urlString, decodeTo: PokemonListResponse.self) { result in
             switch result {
             case .success(let response):
-                print(response)
+                let pokemons = response.results.map { $0.toDomainModel() }
+                completion(.success(pokemons))
             case .failure(let error):
-                print(error)
+                completion(.failure(error))
             }
         }
     }
