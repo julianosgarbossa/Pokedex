@@ -20,11 +20,19 @@ class PokemonListViewController: UIViewController {
         super.viewDidLoad()
         self.setDelegatesAndDataSources()
         self.pokeminListViewModel.fetchPokemons()
+        self.configNagivationBar()
     }
     
     private func setDelegatesAndDataSources() {
         self.pokemonListView.setTableViewDelegateAndDataSource(delegate: self, dataSource: self)
         self.pokeminListViewModel.delegate = self
+    }
+    
+    private func configNagivationBar() {
+        let backItem = UIBarButtonItem()
+        backItem.title = "Pokédex"
+        backItem.tintColor = .white
+        navigationItem.backBarButtonItem = backItem
     }
 }
 

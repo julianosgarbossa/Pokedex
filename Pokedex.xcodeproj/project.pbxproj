@@ -157,7 +157,7 @@
 				DEVELOPMENT_TEAM = 2YF7DP2JBR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Pokedex/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Pokedéx";
+				INFOPLIST_KEY_CFBundleDisplayName = "Pokédex";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -190,7 +190,7 @@
 				DEVELOPMENT_TEAM = 2YF7DP2JBR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Pokedex/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Pokedéx";
+				INFOPLIST_KEY_CFBundleDisplayName = "Pokédex";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
