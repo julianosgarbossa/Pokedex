@@ -213,12 +213,12 @@ class PokemonDetailView: UIView {
             label.textColor = .white
             label.backgroundColor = color(for: type)
             label.textAlignment = .center
-            label.layer.cornerRadius = 20
+            label.layer.cornerRadius = 15
             label.clipsToBounds = true
             label.setContentHuggingPriority(.required, for: .horizontal)
             label.translatesAutoresizingMaskIntoConstraints = false
-            label.heightAnchor.constraint(equalToConstant: 40).isActive = true
-            label.widthAnchor.constraint(greaterThanOrEqualToConstant: 150).isActive = true
+            label.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            label.widthAnchor.constraint(greaterThanOrEqualToConstant: 120).isActive = true
             typesStackView.addArrangedSubview(label)
         }
     }
@@ -231,6 +231,16 @@ class PokemonDetailView: UIView {
         case "poison": return .systemPurple
         case "flying": return .systemTeal
         case "electric": return .systemYellow
+        case "ice": return .cyan
+        case "ground": return .brown
+        case "fighting": return .red
+        case "psychic": return .systemPink
+        case "rock": return .darkGray
+        case "bug": return .systemGreen
+        case "ghost": return .purple
+        case "dragon": return .orange
+        case "dark": return .black
+        case "steel": return .lightGray
         default: return .gray
         }
     }
@@ -296,7 +306,7 @@ class PokemonDetailView: UIView {
             footterView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             footterView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
   
-            typesScrollView.topAnchor.constraint(equalTo: footterView.topAnchor, constant: 15),
+            typesScrollView.topAnchor.constraint(equalTo: footterView.topAnchor, constant: 10),
             typesScrollView.leadingAnchor.constraint(equalTo: footterView.leadingAnchor),
             typesScrollView.trailingAnchor.constraint(equalTo: footterView.trailingAnchor),
             typesScrollView.heightAnchor.constraint(equalToConstant: 40),
@@ -313,7 +323,7 @@ class PokemonDetailView: UIView {
             typesStackView.bottomAnchor.constraint(equalTo: typesContentView.bottomAnchor),
             typesStackView.centerXAnchor.constraint(equalTo: typesContentView.centerXAnchor),
             
-            baseStatsTitleLabel.topAnchor.constraint(equalTo: typesScrollView.bottomAnchor, constant: 15),
+            baseStatsTitleLabel.topAnchor.constraint(equalTo: typesScrollView.bottomAnchor, constant: 10),
             baseStatsTitleLabel.leadingAnchor.constraint(equalTo: footterView.leadingAnchor, constant: 20),
             baseStatsTitleLabel.trailingAnchor.constraint(equalTo: footterView.trailingAnchor, constant: -20),
             
@@ -322,12 +332,5 @@ class PokemonDetailView: UIView {
             statsStackView.trailingAnchor.constraint(equalTo: footterView.trailingAnchor, constant: -20),
             statsStackView.bottomAnchor.constraint(equalTo: footterView.bottomAnchor, constant: -20),
         ])
-    }
-}
-
-extension NSLayoutConstraint {
-    func withPriority(_ priority: UILayoutPriority) -> NSLayoutConstraint {
-        self.priority = priority
-        return self
     }
 }

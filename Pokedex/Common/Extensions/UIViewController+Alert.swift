@@ -7,8 +7,6 @@
 
 import UIKit
 
-import UIKit
-
 extension UIViewController {
     func showAlert(title: String = "Erro", message: String, buttonTitle: String = "OK") {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
