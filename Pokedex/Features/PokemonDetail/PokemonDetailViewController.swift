@@ -10,12 +10,12 @@ import UIKit
 class PokemonDetailViewController: UIViewController {
 
     // Temp
-    private let pokemonType: [String] = ["fire", "water"] // "grass", "poison", "flying", "electric", "ice", "ground", "fighting", "psychic", "rock", "bug", "ghost", "dragon", "dark", "steel"
+    private let pokemonType: [String] = ["fire", "water"] // , "grass", "poison", "flying", "electric", "ice", "ground", "fighting", "psychic", "rock", "bug", "ghost", "dragon", "dark", "steel"
     
     private let pokemonDetailView: PokemonDetailView = {
         let pokemonDetailView = PokemonDetailView()
         pokemonDetailView.translatesAutoresizingMaskIntoConstraints = false
-        pokemonDetailView.backgroundColor = .white
+        pokemonDetailView.backgroundColor = AppColor.neutralLightGray
         return pokemonDetailView
     }()
     

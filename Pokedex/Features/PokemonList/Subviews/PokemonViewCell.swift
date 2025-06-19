@@ -13,7 +13,7 @@ class PokemonViewCell: UIView {
     private let backgroundEffectsContentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 240/255, green: 241/255, blue: 243/255, alpha: 1)
+        view.backgroundColor = AppColor.neutralLightGray
         view.layer.cornerRadius = 12
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.05
@@ -27,7 +27,7 @@ class PokemonViewCell: UIView {
     private let infoBackgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 36/255, green: 39/255, blue: 41/255, alpha: 1)
+        view.backgroundColor = AppColor.neutralDarkGray
         view.layer.cornerRadius = 12
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         return view
@@ -36,7 +36,7 @@ class PokemonViewCell: UIView {
     private let imageBackgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 240/255, green: 241/255, blue: 243/255, alpha: 1)
+        view.backgroundColor = AppColor.neutralLightGray
         view.layer.cornerRadius = 12
         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         return view
@@ -62,7 +62,7 @@ class PokemonViewCell: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        label.textColor = UIColor(red: 255/255, green: 204/255, blue: 0, alpha: 1)
+        label.textColor = AppColor.accentYellow
         return label
     }()
     
@@ -137,8 +137,8 @@ class PokemonViewCell: UIView {
     
     func configViewCell(pokemon: Pokemon) {
         let pokemonImageUrl = URL(string: pokemon.pokemonImage)
-        self.pokemonImageView.kf.setImage(with: pokemonImageUrl, placeholder: UIImage(named: "pokemonImageDefault"))
+        self.pokemonImageView.kf.setImage(with: pokemonImageUrl, placeholder: UIImage(named: AppString.Image.pokemonImageDefault))
         self.nameLabel.text = pokemon.name
-        self.numberLabel.text = String(format: "#%03d", pokemon.number)
+        self.numberLabel.text = String(format: AppString.Text.numberFormat, pokemon.number)
     }
 }

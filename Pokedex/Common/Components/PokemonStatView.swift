@@ -21,16 +21,18 @@ class PokemonStatView: UIView {
     private let statNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .gray
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textColor = AppColor.neutralDarkGray
+        label.textAlignment = .left
         return label
     }()
     
     private let statValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
-        label.textColor = .black
+        label.font = .systemFont(ofSize: 16, weight: .semibold)
+        label.textColor = AppColor.neutralDarkGray
+        label.textAlignment = .center
         return label
     }()
     
@@ -70,9 +72,9 @@ class PokemonStatView: UIView {
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            progressView.heightAnchor.constraint(equalToConstant: 4),
-            statNameLabel.widthAnchor.constraint(equalToConstant: 60),
-            statValueLabel.widthAnchor.constraint(equalToConstant: 30),
+            progressView.heightAnchor.constraint(equalToConstant: 10),
+            statNameLabel.widthAnchor.constraint(equalToConstant: 65),
+            statValueLabel.widthAnchor.constraint(equalToConstant: 40),
         ])
     }
     

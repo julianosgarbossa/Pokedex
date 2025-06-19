@@ -36,9 +36,6 @@ class PokemonDetailView: UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .systemOrange
-        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        view.layer.cornerRadius = 50
-        view.clipsToBounds = true
         return view
     }()
     
@@ -62,9 +59,9 @@ class PokemonDetailView: UIView {
     private let pokemonNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = AppColor.neutralLightGray
         label.text = "Psyduck"
         return label
     }()
@@ -73,7 +70,7 @@ class PokemonDetailView: UIView {
         let stack = UIStackView(arrangedSubviews: [heightLabel, weightLabel])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
-        stack.spacing = 10
+        stack.spacing = 15
         stack.distribution = .fillEqually
         return stack
     }()
@@ -81,8 +78,8 @@ class PokemonDetailView: UIView {
     private let heightLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        label.textColor = AppColor.neutralLightGray
         label.text = "Height: 0,7m"
         return label
     }()
@@ -90,33 +87,34 @@ class PokemonDetailView: UIView {
     private let weightLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        label.textColor = AppColor.neutralLightGray
         label.text = "Weight: 6,9kg"
         return label
     }()
     
     private lazy var favoriteButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        config.image = UIImage(systemName: "heart.fill")
+        config.image = UIImage(systemName: AppString.Image.favoriteFill)
         config.imagePadding = 8
         config.imagePlacement = .leading
         let button = UIButton(configuration: config, primaryAction: nil)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .systemRed
-        let title = NSAttributedString(string: "Favoritar", attributes: [
-            .foregroundColor: UIColor.black,
-            .font: UIFont.systemFont(ofSize: 16, weight: .regular)
+        let title = NSAttributedString(string: AppString.Button.favorite, attributes: [
+            .foregroundColor: AppColor.neutralDarkGray,
+            .font: UIFont.systemFont(ofSize: 16, weight: .semibold)
         ])
         button.setAttributedTitle(title, for: .normal)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 8
+        button.backgroundColor = AppColor.neutralLightGray
+        button.layer.cornerRadius = 17.5
         button.addTarget(self, action: #selector(favoriteTapped), for: .touchUpInside)
         return button
     }()
     
     private let footterView: UIView = {
         let view = UIView()
+        view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -139,7 +137,7 @@ class PokemonDetailView: UIView {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
-        stack.spacing = 10
+        stack.spacing = 15
         stack.alignment = .center
         return stack
     }()
@@ -149,8 +147,8 @@ class PokemonDetailView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textAlignment = .left
-        label.textColor = .black
-        label.text = "Status Base"
+        label.textColor = AppColor.neutralDarkGray
+        label.text = AppString.Text.statusBaseTitle
         return label
     }()
     
@@ -164,37 +162,37 @@ class PokemonDetailView: UIView {
     
     private let attackPokemonStatView: PokemonStatView = {
         let pokemonStatView = PokemonStatView()
-        pokemonStatView.configure(statName: "Attack", value: 49)
+        pokemonStatView.configure(statName: AppString.Text.statAttack, value: 49)
         return pokemonStatView
     }()
     
     private let spAttackPokemonStatView: PokemonStatView = {
         let pokemonStatView = PokemonStatView()
-        pokemonStatView.configure(statName: "Sp. Atk", value: 65)
+        pokemonStatView.configure(statName: AppString.Text.statSpAttack, value: 65)
         return pokemonStatView
     }()
     
     private let speedPokemonStatView: PokemonStatView = {
         let pokemonStatView = PokemonStatView()
-        pokemonStatView.configure(statName: "Speed", value: 45)
+        pokemonStatView.configure(statName: AppString.Text.statSpeed, value: 45)
         return pokemonStatView
     }()
     
     private let hpPokemonStatView: PokemonStatView = {
         let pokemonStatView = PokemonStatView()
-        pokemonStatView.configure(statName: "HP", value: 45)
+        pokemonStatView.configure(statName: AppString.Text.statHp, value: 45)
         return pokemonStatView
     }()
     
     private let defensePokemonStatView: PokemonStatView = {
         let pokemonStatView = PokemonStatView()
-        pokemonStatView.configure(statName: "Defense", value: 49)
+        pokemonStatView.configure(statName: AppString.Text.statDefense, value: 49)
         return pokemonStatView
     }()
     
     private let spDefensePokemonStatView: PokemonStatView = {
         let pokemonStatView = PokemonStatView()
-        pokemonStatView.configure(statName: "Sp. Def", value: 105)
+        pokemonStatView.configure(statName: AppString.Text.statSpDefense, value: 105)
         return pokemonStatView
     }()
     
@@ -209,16 +207,16 @@ class PokemonDetailView: UIView {
         for type in types {
             let label = UILabel()
             label.text = type.capitalized
-            label.font = .boldSystemFont(ofSize: 14)
-            label.textColor = .white
+            label.font = .systemFont(ofSize: 16, weight: .semibold)
+            label.textColor = AppColor.neutralLightGray
             label.backgroundColor = color(for: type)
             label.textAlignment = .center
-            label.layer.cornerRadius = 15
+            label.layer.cornerRadius = 17.5
             label.clipsToBounds = true
             label.setContentHuggingPriority(.required, for: .horizontal)
             label.translatesAutoresizingMaskIntoConstraints = false
-            label.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            label.widthAnchor.constraint(greaterThanOrEqualToConstant: 120).isActive = true
+            label.heightAnchor.constraint(equalToConstant: 35).isActive = true
+            label.widthAnchor.constraint(greaterThanOrEqualToConstant: 150).isActive = true
             typesStackView.addArrangedSubview(label)
         }
     }
@@ -296,17 +294,18 @@ class PokemonDetailView: UIView {
             pokemonStackView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -20),
             pokemonStackView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -20),
             
-            pokemonImageView.widthAnchor.constraint(equalToConstant: 200),
-            pokemonImageView.heightAnchor.constraint(equalToConstant: 200),
+            pokemonImageView.widthAnchor.constraint(equalToConstant: 175),
+            pokemonImageView.heightAnchor.constraint(equalToConstant: 175),
             
-            favoriteButton.heightAnchor.constraint(equalToConstant: 40),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 35),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 150),
 
             footterView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             footterView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             footterView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             footterView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
   
-            typesScrollView.topAnchor.constraint(equalTo: footterView.topAnchor, constant: 10),
+            typesScrollView.topAnchor.constraint(equalTo: footterView.topAnchor, constant: 15),
             typesScrollView.leadingAnchor.constraint(equalTo: footterView.leadingAnchor),
             typesScrollView.trailingAnchor.constraint(equalTo: footterView.trailingAnchor),
             typesScrollView.heightAnchor.constraint(equalToConstant: 40),
@@ -323,11 +322,11 @@ class PokemonDetailView: UIView {
             typesStackView.bottomAnchor.constraint(equalTo: typesContentView.bottomAnchor),
             typesStackView.centerXAnchor.constraint(equalTo: typesContentView.centerXAnchor),
             
-            baseStatsTitleLabel.topAnchor.constraint(equalTo: typesScrollView.bottomAnchor, constant: 10),
+            baseStatsTitleLabel.topAnchor.constraint(equalTo: typesStackView.bottomAnchor, constant: 15),
             baseStatsTitleLabel.leadingAnchor.constraint(equalTo: footterView.leadingAnchor, constant: 20),
             baseStatsTitleLabel.trailingAnchor.constraint(equalTo: footterView.trailingAnchor, constant: -20),
             
-            statsStackView.topAnchor.constraint(equalTo: baseStatsTitleLabel.bottomAnchor, constant: 15),
+            statsStackView.topAnchor.constraint(equalTo: baseStatsTitleLabel.bottomAnchor, constant: 20),
             statsStackView.leadingAnchor.constraint(equalTo: footterView.leadingAnchor, constant: 20),
             statsStackView.trailingAnchor.constraint(equalTo: footterView.trailingAnchor, constant: -20),
             statsStackView.bottomAnchor.constraint(equalTo: footterView.bottomAnchor, constant: -20),
