@@ -10,16 +10,60 @@ import Kingfisher
 
 class PokemonViewCell: UIView {
     
-    private let contentView: UIView = {
+    private let backgroundEffectsContentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(red: 240/255, green: 241/255, blue: 243/255, alpha: 1)
         view.layer.cornerRadius = 12
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.1
+        view.layer.shadowOpacity = 0.05
         view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowRadius = 4
+        view.layer.shadowRadius = 2
+        view.layer.borderColor = UIColor(white: 0.9, alpha: 1).cgColor
+        view.layer.borderWidth = 0.5
         return view
+    }()
+    
+    private let infoBackgroundView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(red: 36/255, green: 39/255, blue: 41/255, alpha: 1)
+        view.layer.cornerRadius = 12
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        return view
+    }()
+    
+    private let imageBackgroundView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(red: 240/255, green: 241/255, blue: 243/255, alpha: 1)
+        view.layer.cornerRadius = 12
+        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+        return view
+    }()
+    
+    private lazy var infoStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [numberLabel, nameLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 5
+        return stackView
+    }()
+    
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.textColor = .white
+        return label
+    }()
+    
+    private let numberLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        label.textColor = UIColor(red: 255/255, green: 204/255, blue: 0, alpha: 1)
+        return label
     }()
     
     private let pokemonImageView: UIImageView = {
@@ -31,30 +75,13 @@ class PokemonViewCell: UIView {
         return imageView
     }()
     
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        label.textColor = .black
-        return label
-    }()
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        DispatchQueue.main.async {
+            self.infoBackgroundView.applyDiagonalMask(cutoffMultiplier: 0.75)
+        }
+    }
     
-    private let numberLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .darkGray
-        return label
-    }()
-    
-    private lazy var infoStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [nameLabel, numberLabel])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 5
-        return stackView
-    }()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setVisualElements()
@@ -65,29 +92,40 @@ class PokemonViewCell: UIView {
     }
     
     private func setVisualElements() {
-        addSubview(contentView)
-        contentView.addSubview(pokemonImageView)
-        contentView.addSubview(infoStackView)
+        addSubview(backgroundEffectsContentView)
+        backgroundEffectsContentView.addSubview(infoBackgroundView)
+        backgroundEffectsContentView.addSubview(imageBackgroundView)
+        infoBackgroundView.addSubview(infoStackView)
+        imageBackgroundView.addSubview(pokemonImageView)
         
         self.setConstraints()
     }
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
-            contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
+            backgroundEffectsContentView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+            backgroundEffectsContentView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            backgroundEffectsContentView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            backgroundEffectsContentView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
             
-            pokemonImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
-            pokemonImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
-            pokemonImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+            infoBackgroundView.topAnchor.constraint(equalTo: backgroundEffectsContentView.topAnchor),
+            infoBackgroundView.leadingAnchor.constraint(equalTo: backgroundEffectsContentView.leadingAnchor),
+            infoBackgroundView.bottomAnchor.constraint(equalTo: backgroundEffectsContentView.bottomAnchor),
+            infoBackgroundView.trailingAnchor.constraint(equalTo: imageBackgroundView.leadingAnchor),
+            
+            imageBackgroundView.topAnchor.constraint(equalTo: backgroundEffectsContentView.topAnchor),
+            imageBackgroundView.trailingAnchor.constraint(equalTo: backgroundEffectsContentView.trailingAnchor),
+            imageBackgroundView.bottomAnchor.constraint(equalTo: backgroundEffectsContentView.bottomAnchor),
+            imageBackgroundView.widthAnchor.constraint(equalTo: backgroundEffectsContentView.widthAnchor, multiplier: 0.3),
+            
+            infoStackView.centerYAnchor.constraint(equalTo: infoBackgroundView.centerYAnchor),
+            infoStackView.leadingAnchor.constraint(equalTo: infoBackgroundView.leadingAnchor, constant: 16),
+            infoStackView.trailingAnchor.constraint(equalTo: infoBackgroundView.trailingAnchor, constant: -8),
+            
+            pokemonImageView.centerXAnchor.constraint(equalTo: imageBackgroundView.centerXAnchor),
+            pokemonImageView.centerYAnchor.constraint(equalTo: imageBackgroundView.centerYAnchor),
             pokemonImageView.widthAnchor.constraint(equalToConstant: 90),
-            pokemonImageView.heightAnchor.constraint(equalToConstant: 90),
-            
-            infoStackView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            infoStackView.leadingAnchor.constraint(equalTo: self.pokemonImageView.trailingAnchor, constant: 15),
-            infoStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10)
+            pokemonImageView.heightAnchor.constraint(equalToConstant: 90)
         ])
     }
     

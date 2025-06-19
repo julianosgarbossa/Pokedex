@@ -47,6 +47,10 @@ extension PokemonListViewController: UITableViewDataSource {
         cell.configCell(pokemon: self.pokeminListViewModel.getPokemon(index: indexPath.row))
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
+    }
 }
 
 extension PokemonListViewController: UITableViewDelegate {
