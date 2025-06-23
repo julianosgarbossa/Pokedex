@@ -10,7 +10,7 @@ import UIKit
 class PokemonListViewController: UIViewController {
 
     private let pokemonListView = PokemonListView()
-    private let pokeminListViewModel = PokemonListViewModel()
+    private let pokemonListViewModel = PokemonListViewModel()
     
     private lazy var searchController:UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
@@ -27,7 +27,7 @@ class PokemonListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setDelegatesAndDataSources()
-        self.pokeminListViewModel.fetchPokemons()
+        self.pokemonListViewModel.fetchPokemons()
         self.configNagivationBar()
     }
     
@@ -37,11 +37,11 @@ class PokemonListViewController: UIViewController {
     
     private func setDelegatesAndDataSources() {
         self.pokemonListView.setTableViewDelegateAndDataSource(delegate: self, dataSource: self)
-        self.pokeminListViewModel.delegate = self
+        self.pokemonListViewModel.delegate = self
     }
     
     private func configNagivationBar() {
-        title = AppString.Title.title
+        title = AppString.Title.titlePokedex
         
         // Search Controller
         navigationItem.searchController = searchController
@@ -54,12 +54,12 @@ class PokemonListViewController: UIViewController {
 // MARK: - Delegate and DataSource TableView
 extension PokemonListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.pokeminListViewModel.numberOfPokemons
+        return self.pokemonListViewModel.numberOfPokemons
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PokemonTableViewCell.identifier, for: indexPath) as? PokemonTableViewCell else { return UITableViewCell() }
-        cell.configCell(pokemon: self.pokeminListViewModel.getPokemon(index: indexPath.row))
+        cell.configCell(pokemon: self.pokemonListViewModel.getPokemon(index: indexPath.row))
         return cell
     }
     
@@ -71,7 +71,7 @@ extension PokemonListViewController: UITableViewDataSource {
 extension PokemonListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        let pokemon = self.pokeminListViewModel.getPokemon(index: indexPath.row)
+        let pokemon = self.pokemonListViewModel.getPokemon(index: indexPath.row)
         let pokemonDetailViewController = PokemonDetailViewController(url: pokemon.pokemonUrl)
         self.navigationController?.pushViewController(pokemonDetailViewController, animated: true)
     }
@@ -95,6 +95,6 @@ extension PokemonListViewController: PokemonListViewModelDelegate {
 extension PokemonListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let query = searchController.searchBar.text ?? ""
-        self.pokeminListViewModel.filterPokemons(query: query)
+        self.pokemonListViewModel.filterPokemons(query: query)
     }
 }

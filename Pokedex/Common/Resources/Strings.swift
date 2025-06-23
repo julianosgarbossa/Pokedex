@@ -8,7 +8,8 @@
 enum AppString {
 
     enum Title {
-        static let title = "Pokédex"
+        static let titlePokedex = "Pokédex"
+        static let titleFavorite = "Favoritos"
     }
     
     enum Button {
