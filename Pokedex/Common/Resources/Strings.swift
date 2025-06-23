@@ -6,11 +6,14 @@
 //
 
 enum AppString {
-    /// Crie outras categorias conforme necessidade (Alerts, Labels etc)
+
+    enum Title {
+        static let title = "Pokédex"
+    }
+    
     enum Button {
         static let favorite = "Favoritar"
         static let unfavorite = "Remover"
-        static let title = "Pokédex"
     }
     
     enum Image {
@@ -29,6 +32,7 @@ enum AppString {
         static let statHp = "HP"
         static let statDefense = "Defense"
         static let statSpDefense = "Sp. Def"
+        static let searchPlaceholder = "Buscar Pokémon"
     }
     
     enum Alert {

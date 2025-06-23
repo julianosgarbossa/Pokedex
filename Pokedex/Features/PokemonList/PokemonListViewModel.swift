@@ -17,8 +17,12 @@ class PokemonListViewModel {
     weak var delegate: PokemonListViewModelDelegate?
     private let service: PokemonServiceProtocol
     private(set) var pokemons: [Pokemon] = []
+    private(set) var filteredPokemons: [Pokemon] = []
+    
+    var isFiltering: Bool = false
+    
     var numberOfPokemons: Int {
-        return pokemons.count
+        return isFiltering ? filteredPokemons.count : pokemons.count
     }
     
     init(service: PokemonServiceProtocol = PokemonService()) {
@@ -38,6 +42,17 @@ class PokemonListViewModel {
     }
     
     func getPokemon(index: Int) -> Pokemon {
-        return pokemons[index]
+        return isFiltering ? filteredPokemons[index] : pokemons[index]
+    }
+    
+    func filterPokemons(query: String) {
+        if query.isEmpty {
+            isFiltering = false
+            filteredPokemons = []
+        } else {
+            isFiltering = true
+            filteredPokemons = pokemons.filter { $0.name.lowercased().contains(query.lowercased()) }
+        }
+        delegate?.didUpdatePokemonList()
     }
 }

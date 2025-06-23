@@ -12,6 +12,14 @@ class PokemonListViewController: UIViewController {
     private let pokemonListView = PokemonListView()
     private let pokeminListViewModel = PokemonListViewModel()
     
+    private lazy var searchController:UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = AppString.Text.searchPlaceholder
+        return searchController
+    }()
+    
     override func loadView() {
         self.view = pokemonListView
     }
@@ -23,16 +31,23 @@ class PokemonListViewController: UIViewController {
         self.configNagivationBar()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.tintColor = AppColor.neutralDarkGray
+    }
+    
     private func setDelegatesAndDataSources() {
         self.pokemonListView.setTableViewDelegateAndDataSource(delegate: self, dataSource: self)
         self.pokeminListViewModel.delegate = self
     }
     
     private func configNagivationBar() {
-        let backItem = UIBarButtonItem()
-        backItem.title = "Pokédex"
-        backItem.tintColor = .white
-        navigationItem.backBarButtonItem = backItem
+        title = AppString.Title.title
+        
+        // Search Controller
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
 }
 
@@ -74,5 +89,12 @@ extension PokemonListViewController: PokemonListViewModelDelegate {
         DispatchQueue.main.async {
             self.showAlert(message: "Erro ao carregar lista de pokemons: \(message)")
         }
+    }
+}
+
+extension PokemonListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let query = searchController.searchBar.text ?? ""
+        self.pokeminListViewModel.filterPokemons(query: query)
     }
 }

@@ -34,6 +34,10 @@ class PokemonDetailViewController: UIViewController {
         self.setDelegatesAndDataSources()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.tintColor = AppColor.neutralLightGray
+    }
+    
     private func setDelegatesAndDataSources() {
         self.pokemonDetailViewModel.delegate = self
         self.pokemonDetailView.delegate = self
