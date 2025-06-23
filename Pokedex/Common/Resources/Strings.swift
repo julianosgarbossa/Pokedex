@@ -9,13 +9,14 @@ enum AppString {
     /// Crie outras categorias conforme necessidade (Alerts, Labels etc)
     enum Button {
         static let favorite = "Favoritar"
-        static let unfavorite = "Desfavoritar"
+        static let unfavorite = "Remover"
         static let title = "Pokédex"
     }
     
     enum Image {
         static let pokemonImageDefault = "pokemonImageDefault"
-        static let favoriteFill = "heart.fill"
+        static let favoriteSelected = "heart.fill"
+        static let favoriteUnselected = "heart"
     }
     
     enum Text {
@@ -32,5 +33,9 @@ enum AppString {
     
     enum Alert {
         static let errorDetail = "Erro ao carregar detalhes do Pokemon:"
+    }
+    
+    enum Key {
+        static let favoritesKey = "FavoritePokemon"
     }
 }

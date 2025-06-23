@@ -8,7 +8,29 @@
 import UIKit
 import Kingfisher
 
+protocol PokemonDetailViewDelegate: AnyObject {
+    func didTapFavorite()
+}
+
 class PokemonDetailView: UIView {
+    
+    weak var delegate: PokemonDetailViewDelegate?
+    
+    private var isFavorited = false {
+        didSet {
+            var config = favoriteButton.configuration
+            config?.image = UIImage(systemName: isFavorited ? AppString.Image.favoriteSelected : AppString.Image.favoriteUnselected)
+            
+            let titleText = isFavorited ? AppString.Button.unfavorite : AppString.Button.favorite
+            let attributedTitle = NSAttributedString(string: titleText, attributes: [
+                .foregroundColor: AppColor.neutralDarkGray,
+                .font: UIFont.systemFont(ofSize: 16, weight: .semibold)
+            ])
+            
+            favoriteButton.setAttributedTitle(attributedTitle, for: .normal)
+            favoriteButton.configuration = config
+        }
+    }
     
     private let headerNavigationView: UIView = {
         let view = UIView()
@@ -90,7 +112,7 @@ class PokemonDetailView: UIView {
     
     private lazy var favoriteButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        config.image = UIImage(systemName: AppString.Image.favoriteFill)
+        config.image = UIImage(systemName: AppString.Image.favoriteUnselected)
         config.imagePadding = 8
         config.imagePlacement = .leading
         let button = UIButton(configuration: config, primaryAction: nil)
@@ -169,7 +191,8 @@ class PokemonDetailView: UIView {
     
     @objc
     private func favoriteTapped(sender: UIButton) {
-        print("Pokemon Favoritado!")
+        isFavorited.toggle()
+        delegate?.didTapFavorite()
     }
     
     private func configureTypes(_ types: [PokemonType]) {
@@ -193,7 +216,7 @@ class PokemonDetailView: UIView {
         return label
     }
     
-    func configView(with pokemonDetail: PokemonDetail) {
+    func configView(with pokemonDetail: PokemonDetail, isFavorited: Bool) {
         let pokemonImageUrl = URL(string: pokemonDetail.imageUrl)
         self.pokemonImageView.kf.setImage(with: pokemonImageUrl, placeholder: UIImage(named: AppString.Image.pokemonImageDefault))
         self.pokemonNameLabel.text = pokemonDetail.name.capitalized
@@ -209,6 +232,8 @@ class PokemonDetailView: UIView {
         self.configureTypes(pokemonDetail.types)
         
         self.configureStats(pokemonDetail.stats)
+        
+        self.configureButton(isFavorited: isFavorited)
     }
     
     private func configureStats(_ stats: [PokemonStat]) {
@@ -226,6 +251,10 @@ class PokemonDetailView: UIView {
                 view.configure(statName: label, value: stat.value)
             }
         }
+    }
+    
+    private func configureButton(isFavorited: Bool) {
+        self.isFavorited = isFavorited
     }
     
     override init(frame: CGRect) {
@@ -249,6 +278,7 @@ class PokemonDetailView: UIView {
         typesContentView.addSubview(typesStackView)
         footerView.addSubview(baseStatsTitleLabel)
         footerView.addSubview(statsStackView)
+        
         self.setConstraints()
     }
     

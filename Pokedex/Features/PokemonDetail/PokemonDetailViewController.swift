@@ -36,6 +36,7 @@ class PokemonDetailViewController: UIViewController {
     
     private func setDelegatesAndDataSources() {
         self.pokemonDetailViewModel.delegate = self
+        self.pokemonDetailView.delegate = self
     }
     
     private func setVisualElements() {
@@ -56,9 +57,9 @@ class PokemonDetailViewController: UIViewController {
 
 // MARK: - PokemonDetailViewModelDelegate
 extension PokemonDetailViewController: PokemonDetailViewModelDelegate {
-    func didLoadPokemonDetail(detail: PokemonDetail) {
+    func didLoadPokemonDetail(detail: PokemonDetail, isFavorited: Bool) {
         DispatchQueue.main.async {
-            self.pokemonDetailView.configView(with: detail)
+            self.pokemonDetailView.configView(with: detail, isFavorited: isFavorited)
         }
     }
     
@@ -66,6 +67,13 @@ extension PokemonDetailViewController: PokemonDetailViewModelDelegate {
         DispatchQueue.main.async {
             self.showAlert(message: AppString.Alert.errorDetail + AppString.Text.space + error.localizedDescription)
         }
+    }
+}
+
+// MARK: - PokemonDetailViewDelegate
+extension PokemonDetailViewController: PokemonDetailViewDelegate {
+    func didTapFavorite() {
+        self.pokemonDetailViewModel.toggleFavorite()
     }
 }
 
