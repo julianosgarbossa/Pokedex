@@ -19,6 +19,7 @@ enum AppString {
     }
     
     enum Text {
+        static let space = " "
         static let numberFormat = "#%03d"
         static let statusBaseTitle = "Status Base"
         static let statAttack = "Attack"
@@ -27,5 +28,9 @@ enum AppString {
         static let statHp = "HP"
         static let statDefense = "Defense"
         static let statSpDefense = "Sp. Def"
+    }
+    
+    enum Alert {
+        static let errorDetail = "Erro ao carregar detalhes do Pokemon:"
     }
 }

@@ -9,9 +9,11 @@ import Foundation
 
 protocol PokemonServiceProtocol {
     func fetchPokemonList(completion: @escaping (Result<[Pokemon], Error>) -> Void)
+    func fetchPokemonDetail(from url: URL, completion: @escaping (Result<PokemonDetail, Error>) -> Void)
 }
 
 final class PokemonService: PokemonServiceProtocol {
+    
     let networkClient: NetworkClientProtocol
     
     init(networkClient: NetworkClientProtocol = NetworkClient()) {
@@ -28,6 +30,19 @@ final class PokemonService: PokemonServiceProtocol {
                 let pokemons = response.results.map { $0.toDomainModel() }
                 completion(.success(pokemons))
             case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func fetchPokemonDetail(from url: URL, completion: @escaping (Result<PokemonDetail, any Error>) -> Void) {
+        networkClient.fetch(from: url.absoluteString, decodeTo: PokemonDetailResponse.self) { result in
+            switch result {
+            case .success(let response):
+                let pokemonDetail = response.toDomainModel()
+                completion(.success(pokemonDetail))
+            case .failure(let error):
+                print(error)
                 completion(.failure(error))
             }
         }

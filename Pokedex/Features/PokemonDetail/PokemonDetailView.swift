@@ -6,13 +6,13 @@
 //
 
 import UIKit
+import Kingfisher
 
 class PokemonDetailView: UIView {
     
     private let headerNavigationView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemOrange
         return view
     }()
     
@@ -35,7 +35,6 @@ class PokemonDetailView: UIView {
     private let headerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemOrange
         return view
     }()
     
@@ -52,7 +51,6 @@ class PokemonDetailView: UIView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "psyduck") // koffing psyduck
         return imageView
     }()
     
@@ -62,7 +60,6 @@ class PokemonDetailView: UIView {
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.textAlignment = .center
         label.textColor = AppColor.neutralLightGray
-        label.text = "Psyduck"
         return label
     }()
     
@@ -80,7 +77,6 @@ class PokemonDetailView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         label.textColor = AppColor.neutralLightGray
-        label.text = "Height: 0,7m"
         return label
     }()
     
@@ -89,7 +85,6 @@ class PokemonDetailView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         label.textColor = AppColor.neutralLightGray
-        label.text = "Weight: 6,9kg"
         return label
     }()
     
@@ -112,7 +107,7 @@ class PokemonDetailView: UIView {
         return button
     }()
     
-    private let footterView: UIView = {
+    private let footerView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -160,86 +155,76 @@ class PokemonDetailView: UIView {
         return stack
     }()
     
-    private let attackPokemonStatView: PokemonStatView = {
-        let pokemonStatView = PokemonStatView()
-        pokemonStatView.configure(statName: AppString.Text.statAttack, value: 49)
-        return pokemonStatView
-    }()
+    private let attackPokemonStatView = PokemonStatView()
     
-    private let spAttackPokemonStatView: PokemonStatView = {
-        let pokemonStatView = PokemonStatView()
-        pokemonStatView.configure(statName: AppString.Text.statSpAttack, value: 65)
-        return pokemonStatView
-    }()
+    private let spAttackPokemonStatView = PokemonStatView()
     
-    private let speedPokemonStatView: PokemonStatView = {
-        let pokemonStatView = PokemonStatView()
-        pokemonStatView.configure(statName: AppString.Text.statSpeed, value: 45)
-        return pokemonStatView
-    }()
+    private let speedPokemonStatView = PokemonStatView()
     
-    private let hpPokemonStatView: PokemonStatView = {
-        let pokemonStatView = PokemonStatView()
-        pokemonStatView.configure(statName: AppString.Text.statHp, value: 45)
-        return pokemonStatView
-    }()
+    private let hpPokemonStatView = PokemonStatView()
     
-    private let defensePokemonStatView: PokemonStatView = {
-        let pokemonStatView = PokemonStatView()
-        pokemonStatView.configure(statName: AppString.Text.statDefense, value: 49)
-        return pokemonStatView
-    }()
+    private let defensePokemonStatView = PokemonStatView()
     
-    private let spDefensePokemonStatView: PokemonStatView = {
-        let pokemonStatView = PokemonStatView()
-        pokemonStatView.configure(statName: AppString.Text.statSpDefense, value: 105)
-        return pokemonStatView
-    }()
+    private let spDefensePokemonStatView = PokemonStatView()
     
     @objc
     private func favoriteTapped(sender: UIButton) {
         print("Pokemon Favoritado!")
     }
     
-    func configureTypes(_ types: [String]) {
+    private func configureTypes(_ types: [PokemonType]) {
         typesStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-
-        for type in types {
-            let label = UILabel()
-            label.text = type.capitalized
-            label.font = .systemFont(ofSize: 16, weight: .semibold)
-            label.textColor = AppColor.neutralLightGray
-            label.backgroundColor = color(for: type)
-            label.textAlignment = .center
-            label.layer.cornerRadius = 17.5
-            label.clipsToBounds = true
-            label.setContentHuggingPriority(.required, for: .horizontal)
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.heightAnchor.constraint(equalToConstant: 35).isActive = true
-            label.widthAnchor.constraint(greaterThanOrEqualToConstant: 150).isActive = true
-            typesStackView.addArrangedSubview(label)
-        }
+        types.forEach { typesStackView.addArrangedSubview(makeTypeLabel(for: $0)) }
     }
+    
+    private func makeTypeLabel(for type: PokemonType) -> UILabel {
+        let label = UILabel()
+        label.text = type.getTitle()
+        label.font = .systemFont(ofSize: 16, weight: .semibold)
+        label.textColor = AppColor.neutralLightGray
+        label.backgroundColor = type.getColor()
+        label.textAlignment = .center
+        label.layer.cornerRadius = 17.5
+        label.clipsToBounds = true
+        label.setContentHuggingPriority(.required, for: .horizontal)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        label.widthAnchor.constraint(greaterThanOrEqualToConstant: 150).isActive = true
+        return label
+    }
+    
+    func configView(with pokemonDetail: PokemonDetail) {
+        let pokemonImageUrl = URL(string: pokemonDetail.imageUrl)
+        self.pokemonImageView.kf.setImage(with: pokemonImageUrl, placeholder: UIImage(named: AppString.Image.pokemonImageDefault))
+        self.pokemonNameLabel.text = pokemonDetail.name.capitalized
+        self.heightLabel.text = "Height: \(pokemonDetail.height)m"
+        self.weightLabel.text = "Weight: \(pokemonDetail.weight)kg"
+        
+        
+        if let primaryType = pokemonDetail.types.first {
+            headerNavigationView.backgroundColor = primaryType.getColor()
+            headerView.backgroundColor = primaryType.getColor()
+        }
+        
+        self.configureTypes(pokemonDetail.types)
+        
+        self.configureStats(pokemonDetail.stats)
+    }
+    
+    private func configureStats(_ stats: [PokemonStat]) {
+        let statMap: [(name: String, label: String, view: PokemonStatView)] = [
+            ("attack", AppString.Text.statAttack, attackPokemonStatView),
+            ("special-attack", AppString.Text.statSpAttack, spAttackPokemonStatView),
+            ("speed", AppString.Text.statSpeed, speedPokemonStatView),
+            ("hp", AppString.Text.statHp, hpPokemonStatView),
+            ("defense", AppString.Text.statDefense, defensePokemonStatView),
+            ("special-defense", AppString.Text.statSpDefense, spDefensePokemonStatView)
+        ]
 
-    private func color(for type: String) -> UIColor {
-        switch type.lowercased() {
-        case "fire": return .systemRed
-        case "water": return .systemBlue
-        case "grass": return .systemGreen
-        case "poison": return .systemPurple
-        case "flying": return .systemTeal
-        case "electric": return .systemYellow
-        case "ice": return .cyan
-        case "ground": return .brown
-        case "fighting": return .red
-        case "psychic": return .systemPink
-        case "rock": return .darkGray
-        case "bug": return .systemGreen
-        case "ghost": return .purple
-        case "dragon": return .orange
-        case "dark": return .black
-        case "steel": return .lightGray
-        default: return .gray
+        for (key, label, view) in statMap {
+            if let stat = stats.first(where: { $0.name == key }) {
+                view.configure(statName: label, value: stat.value)
+            }
         }
     }
     
@@ -258,12 +243,12 @@ class PokemonDetailView: UIView {
         scrollView.addSubview(contentView)
         contentView.addSubview(headerView)
         headerView.addSubview(pokemonStackView)
-        contentView.addSubview(footterView)
-        footterView.addSubview(typesScrollView)
+        contentView.addSubview(footerView)
+        footerView.addSubview(typesScrollView)
         typesScrollView.addSubview(typesContentView)
         typesContentView.addSubview(typesStackView)
-        footterView.addSubview(baseStatsTitleLabel)
-        footterView.addSubview(statsStackView)
+        footerView.addSubview(baseStatsTitleLabel)
+        footerView.addSubview(statsStackView)
         self.setConstraints()
     }
     
@@ -300,14 +285,14 @@ class PokemonDetailView: UIView {
             favoriteButton.heightAnchor.constraint(equalToConstant: 35),
             favoriteButton.widthAnchor.constraint(equalToConstant: 150),
 
-            footterView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
-            footterView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            footterView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            footterView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            footerView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+            footerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            footerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            footerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
   
-            typesScrollView.topAnchor.constraint(equalTo: footterView.topAnchor, constant: 15),
-            typesScrollView.leadingAnchor.constraint(equalTo: footterView.leadingAnchor),
-            typesScrollView.trailingAnchor.constraint(equalTo: footterView.trailingAnchor),
+            typesScrollView.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 15),
+            typesScrollView.leadingAnchor.constraint(equalTo: footerView.leadingAnchor),
+            typesScrollView.trailingAnchor.constraint(equalTo: footerView.trailingAnchor),
             typesScrollView.heightAnchor.constraint(equalToConstant: 40),
             
             typesContentView.topAnchor.constraint(equalTo: typesScrollView.topAnchor),
@@ -323,13 +308,13 @@ class PokemonDetailView: UIView {
             typesStackView.centerXAnchor.constraint(equalTo: typesContentView.centerXAnchor),
             
             baseStatsTitleLabel.topAnchor.constraint(equalTo: typesStackView.bottomAnchor, constant: 15),
-            baseStatsTitleLabel.leadingAnchor.constraint(equalTo: footterView.leadingAnchor, constant: 20),
-            baseStatsTitleLabel.trailingAnchor.constraint(equalTo: footterView.trailingAnchor, constant: -20),
+            baseStatsTitleLabel.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 20),
+            baseStatsTitleLabel.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -20),
             
             statsStackView.topAnchor.constraint(equalTo: baseStatsTitleLabel.bottomAnchor, constant: 20),
-            statsStackView.leadingAnchor.constraint(equalTo: footterView.leadingAnchor, constant: 20),
-            statsStackView.trailingAnchor.constraint(equalTo: footterView.trailingAnchor, constant: -20),
-            statsStackView.bottomAnchor.constraint(equalTo: footterView.bottomAnchor, constant: -20),
+            statsStackView.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 20),
+            statsStackView.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -20),
+            statsStackView.bottomAnchor.constraint(equalTo: footerView.bottomAnchor, constant: -20),
         ])
     }
 }

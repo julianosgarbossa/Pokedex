@@ -9,8 +9,7 @@ import UIKit
 
 class PokemonDetailViewController: UIViewController {
 
-    // Temp
-    private let pokemonType: [String] = ["fire", "water"] // , "grass", "poison", "flying", "electric", "ice", "ground", "fighting", "psychic", "rock", "bug", "ghost", "dragon", "dark", "steel"
+    private let pokemonDetailViewModel: PokemonDetailViewModel
     
     private let pokemonDetailView: PokemonDetailView = {
         let pokemonDetailView = PokemonDetailView()
@@ -19,11 +18,8 @@ class PokemonDetailViewController: UIViewController {
         return pokemonDetailView
     }()
     
-    // Temp
-    private let url: URL?
-    
     init(url: URL?) {
-        self.url = url
+        self.pokemonDetailViewModel = PokemonDetailViewModel(url: url)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -34,7 +30,12 @@ class PokemonDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setVisualElements()
-        self.pokemonDetailView.configureTypes(pokemonType)
+        self.pokemonDetailViewModel.fetchPokemonDetail()
+        self.setDelegatesAndDataSources()
+    }
+    
+    private func setDelegatesAndDataSources() {
+        self.pokemonDetailViewModel.delegate = self
     }
     
     private func setVisualElements() {
@@ -50,6 +51,21 @@ class PokemonDetailViewController: UIViewController {
             pokemonDetailView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             pokemonDetailView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+    }
+}
+
+// MARK: - PokemonDetailViewModelDelegate
+extension PokemonDetailViewController: PokemonDetailViewModelDelegate {
+    func didLoadPokemonDetail(detail: PokemonDetail) {
+        DispatchQueue.main.async {
+            self.pokemonDetailView.configView(with: detail)
+        }
+    }
+    
+    func didFailToLoadDetail(with error: any Error) {
+        DispatchQueue.main.async {
+            self.showAlert(message: AppString.Alert.errorDetail + AppString.Text.space + error.localizedDescription)
+        }
     }
 }
 
